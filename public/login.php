@@ -1,42 +1,30 @@
 <?php
-// Rozpoczynamy sesję - musi być na samej górze każdego pliku, który używa logowania
 session_start();
-
-// Dołączamy połączenie z bazą danych
 require_once '../config/db.php';
 
 $error = '';
 
-// Sprawdzamy, czy formularz został wysłany
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
     if (!empty($username) && !empty($password)) {
-        // Szukamy użytkownika w bazie
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND is_active = 1");
         $stmt->execute([$username]);
         $user = $stmt->fetch();
 
-        // Weryfikacja hasła (używamy password_verify, bo w bazie mamy hash)
         if ($user && password_verify($password, $user['password'])) {
-            // Logowanie poprawne! Zapisujemy dane do sesji
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; // Tu zapisujemy czy to 'admin' czy 'user'
+            $_SESSION['role'] = $user['role'];
 
-            // Przekierowanie w zależności od roli
-            if ($user['role'] === 'admin') {
-                header("Location: ../admin/dashboard.php");
-            } else {
-                header("Location: ../user/dashboard.php");
-            }
+            header("Location: " . ($user['role'] === 'admin' ? "../admin/dashboard.php" : "../user/dashboard.php"));
             exit;
         } else {
-            $error = "Błędny login lub hasło!";
+            $error = "Nieautoryzowany dostęp: Błędne poświadczenia.";
         }
     } else {
-        $error = "Wypełnij wszystkie pola!";
+        $error = "Wymagane uzupełnienie wszystkich pól.";
     }
 }
 ?>
@@ -45,29 +33,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Logowanie - PitStop Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dostęp do systemu - PitStop PRO</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Panel Logowania</h2>
-        
-        <?php if ($error): ?>
-            <p style="color: red;"><?php echo $error; ?></p>
-        <?php endif; ?>
 
-        <form method="POST" action="">
-            <div class="form-group">
-                <label>Użytkownik:</label>
-                <input type="text" name="username" required>
+<header class="modern-header">
+    <nav>
+        <div class="logo">
+            <i class="fas fa-tools"></i> PitStop <span>PRO</span>
+        </div>
+        
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.php">Dashboard</a></li>
+                <!-- Te linki można np. ukryć w PHP jeśli użytkownik nie jest zalogowany -->
+                <?php if(isset($_SESSION['user_id'])): ?>
+                    <li><a href="fleet.php">Garaż</a></li>
+                    <li><a href="inventory.php">Magazyn</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <div class="auth-zone">
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <span class="user-badge"><?php echo $_SESSION['username']; ?></span>
+                <a href="../logout.php" class="active btn-login-modern">Wyloguj</a>
+            <?php else: ?>
+                <a href="login.php" class="active btn-login-modern">Logowanie <i class="fas fa-key"></i></a>
+            <?php endif; ?>
+        </div>
+    </nav>
+</header>
+
+<main class="home-wrapper">
+    <section class="login-section">
+        
+        <div class="info-box">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: #fff; text-transform: uppercase; letter-spacing: 2px;">System Login</h2>
+                <p style="font-size: 0.8rem; color: #666;">Wprowadź klucz dostępu do bazy</p>
             </div>
-            <div class="form-group">
-                <label>Hasło:</label>
-                <input type="password" name="password" required>
-            </div>
-            <button type="submit">Zaloguj się</button>
-        </form>
-        <p><a href="index.php">Wróć do strony głównej (Gość)</a></p>
-    </div>
+
+            <?php if ($error): ?>
+                <div class="error-msg">
+                    <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+
+            <form class="main-form" method="POST" action="login.php">
+                <div class="form-group">
+                    <label for="user-login"><i class="fas fa-user-shield"></i> Operator</label>
+                    <input type="text" id="user-login" name="username" placeholder="Nazwa użytkownika" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-pass"><i class="fas fa-key"></i> Hasło</label>
+                    <input type="password" id="user-pass" name="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-login-action">
+                    Autoryzuj <i class="fas fa-chevron-right"></i>
+                </button>
+            </form>
+
+            <p class="center-text">
+                Brak dostępu? <a href="#" class="highlight-link">Kontakt z HQ</a>
+            </p>
+        </div>
+    </section>
+</main>
+
+<footer class="simple-footer">
+    <p>&copy; 2026 PitStop Manager | Secure Access Point</p>
+</footer>
+
 </body>
 </html>

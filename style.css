@@ -1,0 +1,382 @@
+/* ==========================================================================
+   1. FUNDAMENTY I ZMIENNE (Klucz do działania reszty stylów)
+   ========================================================================== */
+:root {
+    --primary: #ff5e00;       /* Racing Orange */
+    --dark-carbon: #0a0a0a;   /* Tło strony */
+    --medium-carbon: #181818; /* Tło kart i paneli */
+    --light-silver: #e0e0e0;  /* Główny tekst */
+    --danger: #d32f2f;
+    --success: #00c853;
+    --white: #ffffff;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--dark-carbon);
+    color: var(--light-silver);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. NAWIGACJA
+   ========================================================================== */
+header {
+    background-color: #121212;
+    border-bottom: 2px solid var(--primary);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: var(--white);
+}
+
+.logo span { color: var(--primary); }
+.logo i { color: var(--primary); margin-right: 10px; }
+
+nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+nav a {
+    color: var(--light-silver);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+nav a:hover, nav a.active { color: var(--primary); }
+
+/* ==========================================================================
+   3. STRONA GŁÓWNA (INDEX) - UKŁAD I HERO
+   ========================================================================== */
+.home-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.split-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.tag {
+    background: rgba(255, 94, 0, 0.1);
+    color: var(--primary);
+    padding: 5px 15px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-left: 3px solid var(--primary);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin: 25px 0;
+    color: var(--white);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* PRZYCISKI - BAJERY */
+.btn-main, .btn-outline, .btn-login-modern, .btn-login-action {
+    padding: 14px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.btn-login-modern.active {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.btn-main, .btn-login-action {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+}
+
+.btn-main:hover, .btn-login-action:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(255, 94, 0, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-outline {
+    border: 1px solid var(--light-silver);
+    color: var(--light-silver);
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(255, 94, 0, 0.05);
+}
+
+/* WIZUALIZACJA STATYSTYK */
+.hero-visual {
+    background: linear-gradient(145deg, #1e1e1e, #121212);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid #333;
+}
+
+.stats-preview { display: flex; flex-direction: column; gap: 20px; }
+
+.stat-card {
+    background: var(--dark-carbon);
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-left: 4px solid var(--primary);
+    transition: var(--transition);
+}
+
+.stat-card i { font-size: 2rem; color: var(--primary); }
+
+.stat-info .value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--white);
+}
+
+.stat-info .label { font-size: 0.8rem; color: #888; text-transform: uppercase; }
+
+/* ==========================================================================
+   4. GRID SYSTEM (KARTY FUNKCJI)
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 80px;
+}
+
+.grid-item {
+    background: var(--medium-carbon);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    transition: var(--transition);
+}
+
+.grid-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.grid-item i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+.grid-item h3 { color: var(--white); margin-bottom: 15px; text-transform: uppercase; }
+/* ==========================================================================
+   5. LOGOWANIE - DARK MODE FORM
+   ========================================================================== */
+/* --- Ulepszone Formularze i Przyciski --- */
+.login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.info-box {
+    background: var(--medium-carbon);
+    border: 1px solid #333;
+    border-radius: 12px; /* Większe zaokrąglenie */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem;
+    position: relative;
+}
+
+/* Dekoracyjna linia nad logowaniem */
+.info-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 0 0 10px 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.main-form input {
+    width: 100%;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.main-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(255, 94, 0, 0.2);
+    background: #181818;
+}
+
+/* Nowoczesny przycisk z "bajery" */
+.btn-login-action {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-login-action:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 94, 0, 0.3);
+}
+
+.btn-login-action:active {
+    transform: translateY(0);
+}
+
+.highlight-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.highlight-link:hover {
+    text-decoration: underline;
+}
+
+.center-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.error-msg {
+    background: rgba(211, 47, 47, 0.1);
+    border: 1px solid var(--danger);
+    color: #ff8a8a;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+/* ==========================================================================
+   6. TABELE I DANE
+   ========================================================================== */
+.table-container {
+    background: var(--medium-carbon);
+    border-radius: 4px;
+}
+
+th {
+    background-color: #000;
+    color: var(--primary);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+tr:nth-child(even) { background-color: #252525; }
+tr:hover { background-color: #2a2a2a; }
+
+footer {
+    background: var(--dark-carbon);
+    color: #666;
+    border-top: 1px solid #333;
+    padding: 30px;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   7. RESPONSYWNOŚĆ
+   ========================================================================== */
+@media (max-width: 900px) {
+    .split-hero { grid-template-columns: 1fr; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .hero-text h1 { font-size: 2.5rem; }
+}
