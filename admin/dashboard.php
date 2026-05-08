@@ -25,41 +25,9 @@ $recent_logs = $pdo->query("
     ORDER BY l.created_at DESC
     LIMIT 5
 ")->fetchAll();
-?>
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | PitStop PRO</title>
-    <link rel="stylesheet" href="../assets/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
 
-<header class="modern-header">
-    <nav>
-        <div class="logo">
-            <i class="fas fa-tools"></i> PitStop <span>PRO</span>
-        </div>
-        <div class="nav-links">
-            <ul>
-                <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                <li><a href="users.php">Pracownicy</a></li>
-                <li><a href="vehicles.php">Flota</a></li>
-                <li><a href="categories.php">Magazyn</a></li>
-                <li><a href="events.php">Kalendarz</a></li>
-                <li><a href="logs.php">Logi</a></li>
-            </ul>
-        </div>
-        <div class="auth-zone">
-            <span class="user-badge">
-                <i class="fas fa-shield-alt"></i> <?php echo htmlspecialchars($username); ?>
-            </span>
-            <a href="../public/logout.php" class="btn-login-modern active">Wyloguj</a>
-        </div>
-    </nav>
-</header>
+include '../includes/header.php';
+?>
 
 <main class="home-wrapper">
 
@@ -141,9 +109,4 @@ $recent_logs = $pdo->query("
 
 </main>
 
-<footer class="simple-footer">
-    <p>&copy; 2026 PitStop Manager | Panel Administracyjny</p>
-</footer>
-
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>
