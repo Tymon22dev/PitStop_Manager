@@ -633,3 +633,146 @@ footer {
     .form-row { grid-template-columns: 1fr; }
     .form-actions { flex-direction: column; align-items: stretch; }
 }
+
+/* ==========================================================================
+   9. KALENDARZ I ZARZĄDZANIE WYDARZENIAMI
+   ========================================================================== */
+
+/* --- Kalendarz Publiczny --- */
+.calendar-empty {
+    grid-column: span 3;
+    text-align: center;
+    color: #888;
+    padding: 40px;
+}
+
+.calendar-card {
+    margin-bottom: 0;
+}
+
+.calendar-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.calendar-card-title {
+    color: var(--white);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.calendar-card-location {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.calendar-card-location i {
+    color: var(--primary);
+}
+
+.calendar-card-result {
+    background: rgba(0, 200, 83, 0.1);
+    border-left: 3px solid var(--success);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+.calendar-card-desc {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* --- Panel Administratora (Kalendarz) --- */
+.admin-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+    .admin-layout-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-panel-card {
+    margin-top: 0;
+}
+
+/* Nadpisanie zachowania dla multiselecta i tabel */
+.form-select-multiple {
+    height: 120px !important;
+    background-image: none !important; /* Usuwamy strzałkę dla listy wielokrotnego wyboru */
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Formaty tekstu w tabelach */
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.text-muted {
+    color: #888;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Szybkie akcje w tabeli administratora (małe przyciski i inputy) */
+.action-buttons-flex {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.inline-form-flex {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.inline-input, .inline-select {
+    padding: 6px 10px;
+    background: #121212;
+    color: var(--white);
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.inline-input:focus, .inline-select:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 94, 0, 0.2);
+}
+
+.inline-input {
+    width: 120px;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
+.btn-danger-outline {
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    background: transparent;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-danger-outline:hover {
+    background: rgba(211, 47, 47, 0.1);
+}
