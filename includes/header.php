@@ -45,8 +45,8 @@ $public_base = '../public/';
                         class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Flota</a></li>
                     <li><a href="<?php echo $admin_base; ?>categories.php"
                         class="<?php echo $current_page === 'categories.php' ? 'active' : ''; ?>">Magazyn</a></li>
-                    <li><a href="<?php echo $admin_base; ?>events.php"
-                        class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
+                    <li><a href="<?php echo $admin_base; ?>events_manage.php"
+                        class="<?php echo $current_page === 'events_manage.php' ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $admin_base; ?>logs.php"
                         class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
 
