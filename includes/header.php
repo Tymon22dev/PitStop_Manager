@@ -39,8 +39,8 @@ $public_base = '../public/';
                 <?php if ($is_admin): ?>
                     <li><a href="<?php echo $admin_base; ?>dashboard.php"
                         class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
-                    <li><a href="<?php echo $admin_base; ?>add_user.php"
-                        class="<?php echo $current_page === 'add_user.php' ? 'active' : ''; ?>">Pracownicy</a></li>
+                    <li><a href="<?php echo $admin_base; ?>users.php"
+                        class="<?php echo in_array($current_page, ['users.php', 'add_user.php', 'edit_user.php']) ? 'active' : ''; ?>">Pracownicy</a></li>
                     <li><a href="<?php echo $admin_base; ?>vehicles.php"
                         class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Flota</a></li>
                     <li><a href="<?php echo $admin_base; ?>categories.php"
