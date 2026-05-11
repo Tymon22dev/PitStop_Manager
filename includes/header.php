@@ -38,25 +38,25 @@ $public_base = '../public/';
             <ul>
                 <?php if ($is_admin): ?>
                     <li><a href="<?php echo $admin_base; ?>dashboard.php"
-                        class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
+                        class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $admin_base; ?>users.php"
                         class="<?php echo in_array($current_page, ['users.php', 'add_user.php', 'edit_user.php']) ? 'active' : ''; ?>">Pracownicy</a></li>
                     <li><a href="<?php echo $admin_base; ?>vehicles.php"
                         class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Flota</a></li>
                     <li><a href="<?php echo $admin_base; ?>categories.php"
-                        class="<?php echo $current_page === 'categories.php' ? 'active' : ''; ?>">Magazyn</a></li>
+                        class="<?php echo in_array($current_page, ['categories.php','add_category.php','edit_category.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $admin_base; ?>events_manage.php"
                         class="<?php echo $current_page === 'events_manage.php' ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $admin_base; ?>logs.php"
                         class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
 
                 <?php elseif ($is_user): ?>
-                    <li><a href="<?php echo $public_base; ?>index.php"
-                        class="<?php echo $current_page === 'index.php' ? 'active' : ''; ?>">Strona główna</a></li>
+                    <li><a href="<?php echo $user_base; ?>dashboard.php"
+                        class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $public_base; ?>events.php"
                         class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
-                    <li><a href="<?php echo $user_base; ?>inventory.php"
-                        class="<?php echo $current_page === 'inventory.php' ? 'active' : ''; ?>">Magazyn</a></li>
+                    <li><a href="<?php echo $user_base; ?>parts_inventory.php"
+                        class="<?php echo in_array($current_page, ['parts_inventory.php','add_part.php','edit_part.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $user_base; ?>logs.php"
                         class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
                     <li><a href="<?php echo $user_base; ?>profile.php"

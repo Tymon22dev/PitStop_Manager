@@ -506,6 +506,7 @@ footer {
 .form-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -843,4 +844,50 @@ footer {
 .badge-info {
     background: rgba(30, 136, 229, 0.15);
     color: #64b5f6;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.card-footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #222;
+}
+
+/* ==========================================================================
+   Zarządzanie częściami
+   ========================================================================== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #333;
+    color: #888;
+    transition: var(--transition);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+}
+
+/* Wiersz z alertem niskiego stanu */
+.row-alert {
+    border-left: 3px solid var(--danger) !important;
 }
