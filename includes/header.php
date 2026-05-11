@@ -42,7 +42,7 @@ $public_base = '../public/';
                     <li><a href="<?php echo $admin_base; ?>users.php"
                         class="<?php echo in_array($current_page, ['users.php', 'add_user.php', 'edit_user.php']) ? 'active' : ''; ?>">Pracownicy</a></li>
                     <li><a href="<?php echo $admin_base; ?>vehicles.php"
-                        class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Flota</a></li>
+                        class="<?php echo in_array($current_page, ['vehicles.php','add_vehicle.php','edit_vehicle.php']) ? 'active' : ''; ?>">Pojazdy</a></li>
                     <li><a href="<?php echo $admin_base; ?>categories.php"
                         class="<?php echo in_array($current_page, ['categories.php','add_category.php','edit_category.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $admin_base; ?>events_manage.php"
@@ -57,6 +57,8 @@ $public_base = '../public/';
                         class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $user_base; ?>parts_inventory.php"
                         class="<?php echo in_array($current_page, ['parts_inventory.php','add_part.php','edit_part.php']) ? 'active' : ''; ?>">Magazyn</a></li>
+                    <li><a href="<?php echo $user_base; ?>vehicles.php"
+                        class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Pojazdy</a></li>
                     <li><a href="<?php echo $user_base; ?>logs.php"
                         class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
                     <li><a href="<?php echo $user_base; ?>profile.php"
