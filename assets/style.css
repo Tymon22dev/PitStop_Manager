@@ -893,3 +893,83 @@ footer {
 .row-alert {
     border-left: 3px solid var(--danger) !important;
 }
+
+
+
+/* ==========================================================================
+   9. UKŁAD PANELI (DASHBOARD & PROFILE)
+   ========================================================================== */
+
+/* --- Nagłówek sekcji (Tytuł + Informacja po prawej) --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.dashboard-sub {
+    color: var(--primary); /* Używa Twojego pomarańczowego z :root */
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    color: var(--white);
+    line-height: 1;
+    margin: 0;
+}
+
+.current-date {
+    font-size: 0.9rem;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #181818;
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.current-date i, .current-date strong {
+    color: var(--primary);
+}
+
+/* --- Siatka układu (Dwie kolumny dla formularzy i tabel) --- */
+.admin-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dwie równe kolumny obok siebie */
+    gap: 30px;
+    margin-top: 20px;
+}
+
+/* --- Marginesy i drobne poprawki (Utility classes) --- */
+.mt-3 {
+    margin-top: 20px !important;
+}
+
+.mb-40 {
+    margin-bottom: 40px !important;
+}
+
+/* --- Responsywność (Dla smartfonów na warsztacie) --- */
+@media (max-width: 1024px) {
+    /* Formularze z profilu i tabele z dashboardu lądują jedno pod drugim */
+    .admin-layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Nagłówek układa się w kolumnę */
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

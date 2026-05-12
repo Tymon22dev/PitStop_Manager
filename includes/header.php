@@ -59,8 +59,8 @@ $public_base = '../public/';
                         class="<?php echo in_array($current_page, ['parts_inventory.php','add_part.php','edit_part.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $user_base; ?>vehicles.php"
                         class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Pojazdy</a></li>
-                    <li><a href="<?php echo $user_base; ?>logs.php"
-                        class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
+                    <li><a href="<?php echo $user_base; ?>logs_manage.php"
+                        class="<?php echo $current_page === 'logs_manage.php' ? 'active' : ''; ?>">Logi</a></li>
                     <li><a href="<?php echo $user_base; ?>profile.php"
                         class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profil</a></li>
 
