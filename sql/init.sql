@@ -73,7 +73,7 @@ CREATE TABLE events (
     status ENUM('zaplanowane', 'zakończone', 'anulowane') DEFAULT 'zaplanowane',
     result VARCHAR(100) DEFAULT 'nieokreślony',
     description TEXT,
-    image_path VARCHAR(255) NULL
+    photo VARCHAR(255) DEFAULT NULL
 );
 
 CREATE TABLE event_vehicles (
