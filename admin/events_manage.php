@@ -46,10 +46,16 @@ include '../includes/header.php';
 ?>
 
     <main class="home-wrapper">
-        <div class="dashboard-header mb-40">
-            <p class="dashboard-sub">Panel administracyjny</p>
+        
+    <div class="dashboard-header">
+        <div>
+            <p class="dashboard-sub">Kalendarz</p>
             <h1 class="dashboard-title">Wydarzenia</h1>
         </div>
+        <div class="current-date">
+            <i class="far fa-calendar-alt"></i> <?php echo date('d.m.Y'); ?>
+        </div>
+    </div>
 
         <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success">
