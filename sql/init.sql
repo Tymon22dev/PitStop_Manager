@@ -83,3 +83,12 @@ CREATE TABLE event_vehicles (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
 );
+
+CREATE TABLE log_parts (
+                           log_id INT NOT NULL,
+                           part_id INT NOT NULL,
+                           quantity_used INT DEFAULT 1,
+                           PRIMARY KEY (log_id, part_id),
+                           FOREIGN KEY (log_id) REFERENCES logs(id) ON DELETE CASCADE,
+                           FOREIGN KEY (part_id) REFERENCES parts(id) ON DELETE CASCADE
+);

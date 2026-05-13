@@ -1505,3 +1505,132 @@ footer {
         font-size: 1.4rem;
     }
 }
+
+/* ==========================================================================
+   10. FORMULARZ DODAWANIA RAPORTU (LOGI I CZĘŚCI)
+   ========================================================================== */
+
+/* Węższy kontener, by formularz wyglądał zgrabnie na szerokim ekranie */
+.wrapper-900 {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Karta daty w stylu outline (przezroczysta) */
+.date-outline {
+    background: transparent;
+    border: 1px solid #333;
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: #888;
+}
+
+.date-outline i {
+    color: var(--primary);
+}
+
+/* Etykiety i podtytuły w formularzu */
+.section-label {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+.label-sm {
+    color: var(--primary);
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 700;
+}
+
+/* Ciemniejsze tło formularzy (override) */
+.admin-form .dark-input {
+    background: #121212;
+    border: 1px solid #222;
+    color: #fff;
+}
+
+/* Kontener na dynamiczne pola części */
+.parts-container-box {
+    background: #1a1a1a;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+/* Pojedynczy wiersz dodanej części */
+.part-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+/* Input do wpisywania ilości (wąski) */
+.input-qty {
+    width: 80px;
+    text-align: center;
+    padding: 14px 10px;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+}
+
+/* Przycisk dodawania kolejnej części (przerywana ramka) */
+.btn-dashed {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    padding: 8px 15px;
+    border: 1px dashed #666;
+    background: transparent;
+    color: #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-dashed:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Przycisk usuwania części (X) */
+.btn-remove-part {
+    background: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 12px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-remove-part:hover {
+    background: rgba(211, 47, 47, 0.1);
+}
+
+/* Przyciski na dole formularza */
+.form-actions-row {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-cancel {
+    padding: 12px 25px;
+    border: 1px solid #444;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.btn-cancel:hover {
+    background: #222;
+}
