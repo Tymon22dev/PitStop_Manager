@@ -2,59 +2,126 @@
 session_start();
 require_once '../config/db.php';
 
-// Pobieranie wszystkich wydarzeń, posortowanych od najbliższych
-$stmt = $pdo->query("SELECT * FROM events ORDER BY event_date ASC");
-$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Filtrowanie po statusie
+$filter = $_GET['status'] ?? 'wszystkie';
+
+$sql = "SELECT e.*, GROUP_CONCAT(CONCAT(v.brand, ' ', v.model) SEPARATOR ', ') as vehicle_names
+        FROM events e
+        LEFT JOIN event_vehicles ev ON e.id = ev.event_id
+        LEFT JOIN vehicles v ON ev.vehicle_id = v.id";
+
+if ($filter !== 'wszystkie') {
+    $sql .= " WHERE e.status = " . $pdo->quote($filter);
+}
+
+$sql .= " GROUP BY e.id ORDER BY e.event_date ASC";
+
+$events = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 include '../includes/header.php';
 ?>
 
-    <main class="home-wrapper">
-        <div class="dashboard-header" style="margin-bottom: 40px;">
+<main class="home-wrapper">
+
+    <div class="dashboard-header">
+        <div>
             <p class="dashboard-sub">PitStop Manager</p>
             <h1 class="dashboard-title">Kalendarz Wyścigów</h1>
         </div>
+        <div class="current-date">
+            <i class="far fa-calendar-alt"></i> <?php echo date('d.m.Y'); ?>
+        </div>
+    </div>
 
-        <div class="dashboard-grid">
-            <?php if (empty($events)): ?>
-                <p style="grid-column: span 3; text-align: center; color: #888;">Brak zaplanowanych wydarzeń w kalendarzu.</p>
-            <?php else: ?>
-                <?php foreach ($events as $event): ?>
-                    <?php
-                    // Ustalenie koloru badge'a na podstawie statusu
-                    $badgeClass = 'badge-pending';
-                    if ($event['status'] == 'zakończone') $badgeClass = 'badge-success';
-                    if ($event['status'] == 'anulowane') $badgeClass = 'badge-danger';
-                    ?>
-                    <div class="card grid-item" style="margin-bottom: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                            <span class="badge <?php echo $badgeClass; ?>"><?php echo htmlspecialchars($event['status']); ?></span>
-                            <div class="current-date">
-                                <i class="far fa-calendar-alt"></i> <?php echo date('d.m.Y', strtotime($event['event_date'])); ?>
-                            </div>
+    <!-- Filtr statusów -->
+    <div class="filter-bar" style="margin-bottom: 30px;">
+        <a href="events.php" class="filter-btn <?php echo $filter === 'wszystkie' ? 'active' : ''; ?>">
+            Wszystkie
+        </a>
+        <a href="events.php?status=zaplanowane" class="filter-btn <?php echo $filter === 'zaplanowane' ? 'active' : ''; ?>">
+            <i class="fas fa-clock"></i> Zaplanowane
+        </a>
+        <a href="events.php?status=zakończone" class="filter-btn <?php echo $filter === 'zakończone' ? 'active' : ''; ?>">
+            <i class="fas fa-flag-checkered"></i> Zakończone
+        </a>
+        <a href="events.php?status=anulowane" class="filter-btn <?php echo $filter === 'anulowane' ? 'active' : ''; ?>">
+            <i class="fas fa-ban"></i> Anulowane
+        </a>
+    </div>
+
+    <!-- Lista wydarzeń -->
+    <?php if (empty($events)): ?>
+        <div class="card">
+            <p class="empty-info">Brak wydarzeń dla wybranego filtra.</p>
+        </div>
+    <?php else: ?>
+        <div class="events-list">
+            <?php foreach ($events as $event):
+                $badgeClass = match($event['status']) {
+                    'zakończone' => 'badge-success',
+                    'anulowane'  => 'badge-danger',
+                    default      => 'badge-pending'
+                };
+                $has_photo = !empty($event['photo']);
+            ?>
+            <a href="event_detail.php?id=<?php echo $event['id']; ?>" class="event-card">
+
+                <!-- Zdjęcie lub placeholder -->
+                <div class="event-card-image">
+                    <?php if ($has_photo): ?>
+                        <img src="<?php echo htmlspecialchars('../' . $event['photo']); ?>"
+                             alt="<?php echo htmlspecialchars($event['title']); ?>">
+                    <?php else: ?>
+                        <div class="event-card-placeholder">
+                            <i class="fas fa-flag-checkered"></i>
                         </div>
+                    <?php endif; ?>
+                    <span class="event-card-badge badge <?php echo $badgeClass; ?>">
+                        <?php echo htmlspecialchars($event['status']); ?>
+                    </span>
+                </div>
 
-                        <h3 style="color: var(--white); margin-bottom: 10px; font-size: 1.2rem;">
-                            <?php echo htmlspecialchars($event['title']); ?>
-                        </h3>
+                <!-- Treść karty -->
+                <div class="event-card-body">
+                    <div class="event-card-meta">
+                        <span><i class="far fa-calendar-alt"></i> <?php echo date('d.m.Y', strtotime($event['event_date'])); ?></span>
+                        <?php if (!empty($event['track_name'])): ?>
+                            <span><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($event['track_name']); ?></span>
+                        <?php endif; ?>
+                    </div>
 
-                        <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;">
-                            <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> <?php echo htmlspecialchars($event['track_name']); ?>
+                    <h2 class="event-card-title"><?php echo htmlspecialchars($event['title']); ?></h2>
+
+                    <?php if (!empty($event['description'])): ?>
+                        <p class="event-card-desc">
+                            <?php echo htmlspecialchars(substr($event['description'], 0, 120)) . (strlen($event['description']) > 120 ? '...' : ''); ?>
                         </p>
+                    <?php endif; ?>
 
-                        <?php if ($event['status'] == 'zakończone' && !empty($event['result'])): ?>
-                            <div style="background: rgba(0, 200, 83, 0.1); border-left: 3px solid var(--success); padding: 10px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 15px;">
-                                <strong>Wynik:</strong> <?php echo htmlspecialchars($event['result']); ?>
-                            </div>
+                    <div class="event-card-footer">
+                        <?php if ($event['status'] === 'zakończone' && !empty($event['result'])): ?>
+                            <span class="event-result">
+                                <i class="fas fa-trophy"></i> <?php echo htmlspecialchars($event['result']); ?>
+                            </span>
                         <?php endif; ?>
 
-                        <p style="color: #888; font-size: 0.85rem;">
-                            <?php echo htmlspecialchars(substr($event['description'], 0, 100)) . (strlen($event['description']) > 100 ? '...' : ''); ?>
-                        </p>
+                        <?php if (!empty($event['vehicle_names'])): ?>
+                            <span class="event-vehicles">
+                                <i class="fas fa-car"></i> <?php echo htmlspecialchars($event['vehicle_names']); ?>
+                            </span>
+                        <?php endif; ?>
+
+                        <span class="event-card-link">
+                            Szczegóły <i class="fas fa-chevron-right"></i>
+                        </span>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                </div>
+
+            </a>
+            <?php endforeach; ?>
         </div>
-    </main>
+    <?php endif; ?>
+
+</main>
 
 <?php include '../includes/footer.php'; ?>
