@@ -60,7 +60,7 @@ $public_base = '../public/';
                     <li><a href="<?php echo $user_base; ?>vehicles.php"
                         class="<?php echo $current_page === 'vehicles.php' ? 'active' : ''; ?>">Pojazdy</a></li>
                     <li><a href="<?php echo $user_base; ?>logs_manage.php"
-                        class="<?php echo $current_page === 'logs_manage.php' ? 'active' : ''; ?>">Logi</a></li>
+                        class="<?php echo in_array($current_page, ['logs_manage.php','add_log.php','edit_log.php']) ? 'active' : ''; ?>">Logi</a></li>
                     <li><a href="<?php echo $user_base; ?>profile.php"
                         class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profil</a></li>
 
@@ -69,6 +69,8 @@ $public_base = '../public/';
                         class="<?php echo $current_page === 'index.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $public_base; ?>events.php"
                         class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
+                    <li><a href="<?php echo $public_base; ?>vehicles.php"
+                        class="<?php echo in_array($current_page, ['vehicles.php', 'vehicle_detail.php']) ? 'active' : ''; ?>">Pojazdy</a></li>
 
                 <?php endif; ?>
             </ul>

@@ -29,7 +29,14 @@ CREATE TABLE vehicles (
     vin VARCHAR(50) UNIQUE, 
     year INT,
     number VARCHAR(10),
-    status ENUM('aktywny', 'w_naprawie', 'wycofany') DEFAULT 'aktywny'
+    status ENUM('aktywny', 'w_naprawie', 'wycofany') DEFAULT 'aktywny',
+    photo VARCHAR(255) DEFAULT NULL,
+    engine VARCHAR(100),
+    weight INT,
+    drive_type VARCHAR(50),
+    category VARCHAR(100),
+    debut_year INT,
+    description TEXT
 );
 
 -- Tabela kategorii (np. Silnik, Zawieszenie, Opony)

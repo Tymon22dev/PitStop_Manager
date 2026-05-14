@@ -1506,6 +1506,20 @@ footer {
     }
 }
 
+.form-section-title {
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #222;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* ==========================================================================
    10. FORMULARZ DODAWANIA RAPORTU (LOGI I CZĘŚCI)
    ========================================================================== */
@@ -1633,4 +1647,450 @@ footer {
 
 .btn-cancel:hover {
     background: #222;
+}
+
+/* ==========================================================================
+   STRONA GŁÓWNA - WIDOK KIBICA
+   ========================================================================== */
+
+.fan-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    padding: 60px 0;
+    border-bottom: 1px solid #222;
+    margin-bottom: 60px;
+}
+
+.fan-hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    margin: 20px 0;
+}
+
+.fan-hero-title span {
+    color: var(--primary);
+}
+
+.fan-hero-sub {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.fan-hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--medium-carbon);
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 30px 40px;
+    min-width: 200px;
+}
+
+.fan-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #222;
+}
+
+.fan-stat:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.fan-stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.fan-stat-label {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Sekcje */
+.fan-section {
+    margin-bottom: 60px;
+}
+
+.fan-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.fan-section-header h2 {
+    color: var(--white);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fan-section-header h2 i {
+    color: var(--primary);
+}
+
+.fan-section-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.fan-section-link:hover {
+    gap: 10px;
+}
+
+/* Nadchodzące wyścigi */
+.upcoming-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.upcoming-card {
+    background: var(--medium-carbon);
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.upcoming-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.upcoming-card-img {
+    height: 160px;
+    overflow: hidden;
+}
+
+.upcoming-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.upcoming-card:hover .upcoming-card-img img {
+    transform: scale(1.05);
+}
+
+.upcoming-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1a1a1a, #111);
+}
+
+.upcoming-card-placeholder i {
+    font-size: 2.5rem;
+    color: #2a2a2a;
+}
+
+.upcoming-card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.upcoming-card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 94, 0, 0.1);
+    border: 1px solid rgba(255, 94, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 55px;
+}
+
+.upcoming-day {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.upcoming-month {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.upcoming-card-info {
+    flex: 1;
+}
+
+.upcoming-card-info h3 {
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.upcoming-card-info p {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.upcoming-card-info p i {
+    color: var(--primary);
+    margin-right: 4px;
+}
+
+/* Tabela wyników */
+.results-table tbody tr:hover {
+    background: #1e1e1e;
+}
+
+.result-highlight {
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* CTA dla gości */
+.fan-cta {
+    margin-top: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a1a1a, #121212);
+    border: 1px solid #333;
+    padding: 60px;
+    text-align: center;
+}
+
+
+.fan-cta-content i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.fan-cta-content h2 {
+    color: var(--white);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.fan-cta-content p {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+    .fan-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .fan-hero-stats {
+        flex-direction: row;
+        min-width: auto;
+    }
+
+    .fan-stat {
+        border-bottom: none;
+        padding-bottom: 0;
+        border-right: 1px solid #222;
+        padding-right: 20px;
+    }
+
+    .fan-stat:last-child {
+        border-right: none;
+    }
+
+    .upcoming-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fan-hero-title {
+        font-size: 2rem;
+    }
+
+    .fan-cta {
+        padding: 30px 20px;
+    }
+}
+
+.fan-cta .btn-main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+}
+
+/* ==========================================================================
+   SIATKA POJAZDÓW
+   ========================================================================== */
+
+.vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.vehicle-card {
+    background: var(--medium-carbon);
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.vehicle-card-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: #111;
+}
+
+.vehicle-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.vehicle-card:hover .vehicle-card-image img {
+    transform: scale(1.05);
+}
+
+.vehicle-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1a1a1a, #111);
+}
+
+.vehicle-card-placeholder i {
+    font-size: 3.5rem;
+    color: #2a2a2a;
+}
+
+.vehicle-card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.vehicle-card-number {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0,0,0,0.7);
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,94,0,0.3);
+}
+
+.vehicle-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.vehicle-card-title {
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.vehicle-card-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vehicle-spec {
+    font-size: 0.78rem;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #111;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #222;
+}
+
+.vehicle-spec i {
+    color: var(--primary);
+    font-size: 0.7rem;
+}
+
+.vehicle-card-desc {
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.vehicle-card-link {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+}
+
+@media (max-width: 900px) {
+    .vehicles-grid {
+        grid-template-columns: 1fr;
+    }
 }
