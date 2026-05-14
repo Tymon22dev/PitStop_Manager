@@ -41,6 +41,8 @@ $public_base = '../public/';
                         class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $admin_base; ?>users.php"
                         class="<?php echo in_array($current_page, ['users.php', 'add_user.php', 'edit_user.php']) ? 'active' : ''; ?>">Pracownicy</a></li>
+                    <li><a href="<?php echo $admin_base; ?>drivers.php"
+                        class="<?php echo in_array($current_page, ['drivers.php','add_driver.php','edit_driver.php']) ? 'active' : ''; ?>">Kierowcy</a></li>
                     <li><a href="<?php echo $admin_base; ?>vehicles.php"
                         class="<?php echo in_array($current_page, ['vehicles.php','add_vehicle.php','edit_vehicle.php']) ? 'active' : ''; ?>">Pojazdy</a></li>
                     <li><a href="<?php echo $admin_base; ?>categories.php"
@@ -71,6 +73,8 @@ $public_base = '../public/';
                         class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $public_base; ?>vehicles.php"
                         class="<?php echo in_array($current_page, ['vehicles.php', 'vehicle_detail.php']) ? 'active' : ''; ?>">Pojazdy</a></li>
+                    <li><a href="<?php echo $public_base; ?>drivers.php"
+                        class="<?php echo in_array($current_page, ['drivers.php','driver_detail.php']) ? 'active' : ''; ?>">Kierowcy</a></li>
 
                 <?php endif; ?>
             </ul>

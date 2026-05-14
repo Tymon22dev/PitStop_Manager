@@ -99,3 +99,25 @@ CREATE TABLE log_parts (
                            FOREIGN KEY (log_id) REFERENCES logs(id) ON DELETE CASCADE,
                            FOREIGN KEY (part_id) REFERENCES parts(id) ON DELETE CASCADE
 );
+
+CREATE TABLE drivers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    number INT,
+    nationality VARCHAR(50),
+    date_of_birth DATE,
+    photo VARCHAR(255),
+    bio TEXT,
+    is_active TINYINT(1) DEFAULT 1,
+    joined_year INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE event_drivers (
+    event_id INT,
+    driver_id INT,
+    PRIMARY KEY (event_id, driver_id),
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    FOREIGN KEY (driver_id) REFERENCES drivers(id) ON DELETE CASCADE
+);
