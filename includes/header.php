@@ -49,8 +49,8 @@ $public_base = '../public/';
                         class="<?php echo in_array($current_page, ['categories.php','add_category.php','edit_category.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $admin_base; ?>events_manage.php"
                         class="<?php echo in_array($current_page, ['events_manage.php','add_event.php','edit_event.php']) ? 'active' : ''; ?>">Kalendarz</a></li>
-                    <li><a href="<?php echo $admin_base; ?>logs.php"
-                        class="<?php echo $current_page === 'logs.php' ? 'active' : ''; ?>">Logi</a></li>
+                    <li><a href="<?php echo $admin_base; ?>logs_manage.php"
+                        class="<?php echo $current_page === 'logs_manage.php' ? 'active' : ''; ?>">Logi</a></li>
 
                 <?php elseif ($is_user): ?>
                     <li><a href="<?php echo $user_base; ?>dashboard.php"

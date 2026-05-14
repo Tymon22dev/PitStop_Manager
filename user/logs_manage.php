@@ -2,7 +2,6 @@
 session_start();
 require_once '../config/db.php';
 
-// Zabezpieczenie przed dostępem
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: ../public/login.php?error=no_access");
     exit;
@@ -12,20 +11,7 @@ $user_id = $_SESSION['user_id'];
 $message = $_GET['success'] ?? '';
 $messageType = 'success';
 
-// --- USUWANIE RAPORTU ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_log'])) {
-    $log_id = $_POST['log_id'];
-
-    // Zabezpieczenie: usuwa tylko jeśli log należy do zalogowanego użytkownika
-    $stmt = $pdo->prepare("DELETE FROM logs WHERE id = ? AND user_id = ?");
-    if ($stmt->execute([$log_id, $user_id])) {
-        $message = "Raport został trwale usunięty.";
-        $messageType = "success";
-    }
-}
-
 // --- POBIERANIE HISTORII - TYLKO DLA ZALOGOWANEGO UŻYTKOWNIKA ---
-// Klauzula WHERE l.user_id = ? gwarantuje, że mechanik widzi tylko swoje wpisy!
 $stmtLogs = $pdo->prepare("
     SELECT l.*, v.brand, v.model, v.number 
     FROM logs l 
@@ -46,19 +32,19 @@ include '../includes/header.php';
                 <h1 class="dashboard-title">Dziennik Serwisowy</h1>
             </div>
             <div class="current-date date-outline">
-                <a href="add_log.php" class="btn-save" style="text-decoration: none; padding: 10px 20px;">
+                <a href="add_log.php" class="btn-save">
                     <i class="fas fa-plus"></i> DODAJ NOWY RAPORT
                 </a>
             </div>
         </div>
 
         <?php if ($message): ?>
-            <div class="alert alert-<?php echo $messageType; ?>" style="background: rgba(0, 200, 83, 0.1); border-left: 4px solid var(--success); color: var(--success); padding: 15px; margin-bottom: 20px;">
+            <div class="alert alert-<?php echo $messageType; ?>">
                 <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message); ?>
             </div>
         <?php endif; ?>
 
-        <section class="card admin-panel-card" style="margin-top: 0;">
+        <section class="card admin-panel-card">
             <h2 class="section-label"><i class="fas fa-history"></i> Twoja historia prac</h2>
 
             <div class="table-container table-responsive">
@@ -101,28 +87,21 @@ include '../includes/header.php';
                                     $used_parts = $stmtParts->fetchAll(PDO::FETCH_ASSOC);
 
                                     if (empty($used_parts)) {
-                                        echo '<span class="text-muted" style="font-size:0.75rem;">Brak</span>';
+                                        echo '<span class="text-muted">Brak</span>';
                                     } else {
                                         foreach($used_parts as $up) {
-                                            echo '<span class="badge badge-pending" style="display:inline-block; margin:2px; background: #333; color: #fff;">' . htmlspecialchars($up['name']) . ' x' . $up['quantity_used'] . '</span>';
+                                            echo '<span class="badge badge-info">' . htmlspecialchars($up['name']) . ' x' . $up['quantity_used'] . '</span> ';
                                         }
                                     }
                                     ?>
                                 </td>
 
                                 <td>
-                                    <!-- Przyciski Edycji i Usuwania obok siebie -->
-                                    <div style="display: flex; gap: 5px;">
-                                        <a href="edit_log.php?id=<?php echo $log['id']; ?>" class="btn-cancel" style="padding: 6px 12px; border-color: var(--primary); color: var(--primary);">
+                                    <!-- Korzystamy z Twoich nowych klas do przycisków w tabeli -->
+                                    <div class="table-actions">
+                                        <a href="edit_log.php?id=<?php echo $log['id']; ?>" class="btn-action btn-edit" title="Popraw swój wpis">
                                             <i class="fas fa-pen"></i>
                                         </a>
-
-                                        <form method="POST" onsubmit="return confirm('Usunięcie raportu NIE przywróci części do magazynu. Kontynuować?');">
-                                            <input type="hidden" name="log_id" value="<?php echo $log['id']; ?>">
-                                            <button type="submit" name="delete_log" class="btn-remove-part" style="padding: 6px 12px;">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>
