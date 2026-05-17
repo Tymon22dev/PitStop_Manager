@@ -62,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 }
+                if (isset($_POST['drivers']) && is_array($_POST['drivers'])) {
+                    $stmtD = $pdo->prepare("INSERT INTO event_drivers (event_id, driver_id) VALUES (?, ?)");
+                    foreach ($_POST['drivers'] as $d_id) {
+                        if (is_numeric($d_id)) {
+                            $stmtD->execute([$event_id, (int)$d_id]);
+                        }
+                    }
+                }
 
                 header("Location: events_manage.php?success=added");
                 exit;
@@ -76,6 +84,12 @@ $vehicles = $pdo->query("
     SELECT * FROM vehicles 
     WHERE status = 'aktywny' 
     ORDER BY brand ASC, model ASC
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$drivers = $pdo->query("
+    SELECT * FROM drivers 
+    WHERE is_active = 1 
+    ORDER BY last_name ASC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 include '../includes/header.php';
@@ -186,6 +200,36 @@ include '../includes/header.php';
                 </div>
             </div>
 
+            <!-- Kierowcy — dropdown z checkboxami -->
+            <div class="form-group">
+                <label>Przypisz kierowców</label>
+                <div class="checkbox-dropdown" id="driver-dropdown">
+                    <div class="checkbox-dropdown-toggle" id="driver-toggle">
+                        <span id="driver-label">Wybierz kierowców...</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="checkbox-dropdown-menu" id="driver-menu">
+                        <?php if (empty($drivers)): ?>
+                            <p class="dropdown-empty">Brak aktywnych kierowców.</p>
+                        <?php else: ?>
+                            <?php foreach ($drivers as $d): ?>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="drivers[]"
+                                        value="<?php echo $d['id']; ?>">
+                                    <span class="checkbox-custom"></span>
+                                    <span class="checkbox-label">
+                                        <?php if (!empty($d['number'])): ?>
+                                            #<?php echo htmlspecialchars($d['number']); ?> —
+                                        <?php endif; ?>
+                                        <?php echo htmlspecialchars($d['first_name'] . ' ' . $d['last_name']); ?>
+                                    </span>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Opis / Notatki</label>
                 <textarea name="description" rows="3"
@@ -251,6 +295,37 @@ function updateLabel() {
     }
 }
 checkboxes.forEach(cb => cb.addEventListener('change', updateLabel));
+
+// --- Dropdown kierowców ---
+const driverToggle = document.getElementById('driver-toggle');
+const driverMenu   = document.getElementById('driver-menu');
+const driverLabel  = document.getElementById('driver-label');
+const driverBoxes  = driverMenu.querySelectorAll('input[type="checkbox"]');
+
+driverToggle.addEventListener('click', () => {
+    driverMenu.classList.toggle('open');
+    driverToggle.classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('driver-dropdown').contains(e.target)) {
+        driverMenu.classList.remove('open');
+        driverToggle.classList.remove('open');
+    }
+});
+
+function updateDriverLabel() {
+    const selected = [...driverBoxes].filter(cb => cb.checked);
+    if (selected.length === 0) {
+        driverLabel.textContent = 'Wybierz kierowców...';
+    } else if (selected.length === 1) {
+        driverLabel.textContent = selected[0].closest('label')
+            .querySelector('.checkbox-label').textContent.trim();
+    } else {
+        driverLabel.textContent = `Wybrano ${selected.length} kierowców`;
+    }
+}
+driverBoxes.forEach(cb => cb.addEventListener('change', updateDriverLabel));
 
 // --- Upload zdjęcia ---
 const photoInput    = document.getElementById('photo-input');

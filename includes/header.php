@@ -70,7 +70,7 @@ $public_base = '../public/';
                     <li><a href="<?php echo $public_base; ?>index.php"
                         class="<?php echo $current_page === 'index.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $public_base; ?>events.php"
-                        class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
+                        class="<?php echo in_array($current_page, ['events.php', 'event_detail.php']) ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $public_base; ?>vehicles.php"
                         class="<?php echo in_array($current_page, ['vehicles.php', 'vehicle_detail.php']) ? 'active' : ''; ?>">Pojazdy</a></li>
                     <li><a href="<?php echo $public_base; ?>drivers.php"

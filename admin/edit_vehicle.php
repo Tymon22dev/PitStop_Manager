@@ -252,7 +252,7 @@ include '../includes/header.php';
                 <?php if (!empty($vehicle['photo'])): ?>
                     <div class="file-preview" id="file-preview" style="display: flex;">
                         <img id="preview-img"
-                             src="<?php echo htmlspecialchars('../../' . $vehicle['photo']); ?>"
+                             src="<?php echo htmlspecialchars('../' . $vehicle['photo']); ?>"
                              alt="Zdjęcie pojazdu">
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             <button type="button" class="file-remove" id="file-change">

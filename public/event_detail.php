@@ -21,13 +21,24 @@ if (!$event) {
 
 // Pobierz przypisane pojazdy
 $stmtV = $pdo->prepare("
-    SELECT v.number, v.brand, v.model, v.status
+    SELECT v.id, v.number, v.brand, v.model, v.status, v.photo
     FROM event_vehicles ev
     JOIN vehicles v ON ev.vehicle_id = v.id
     WHERE ev.event_id = ?
 ");
 $stmtV->execute([$event_id]);
 $vehicles = $stmtV->fetchAll();
+
+// Pobierz przypisanych kierowców
+$stmtD = $pdo->prepare("
+    SELECT d.id, d.first_name, d.last_name, d.number, d.nationality, d.photo
+    FROM event_drivers ed
+    JOIN drivers d ON ed.driver_id = d.id
+    WHERE ed.event_id = ?
+    ORDER BY d.last_name ASC
+");
+$stmtD->execute([$event_id]);
+$event_drivers = $stmtD->fetchAll();
 
 $badgeClass = match($event['status']) {
     'zakończone' => 'badge-success',
@@ -80,37 +91,46 @@ include '../includes/header.php';
     </div>
 
     <!-- Treść -->
-    <div class="event-detail-grid">
+    <div class="event-detail-new-grid">
 
-        <!-- Lewa kolumna: opis -->
-        <div class="event-detail-main">
-
-            <?php if (!empty($event['description'])): ?>
+        <!-- Lewa kolumna: pojazdy -->
+        <?php if (!empty($vehicles)): ?>
+        <div class="event-detail-vehicles">
             <div class="card">
-                <h2><i class="fas fa-info-circle"></i> Opis wydarzenia</h2>
-                <p class="event-detail-desc">
-                    <?php echo nl2br(htmlspecialchars($event['description'])); ?>
-                </p>
+                <h2><i class="fas fa-car"></i> Pojazdy</h2>
+                <div class="event-vehicles-grid">
+                    <?php foreach ($vehicles as $v):
+                        $vehicle_url = 'vehicle_detail.php?id=' . $v['id'] . '&ref=event&event_id=' . $event['id'];
+                    ?>
+                    <a href="<?php echo $vehicle_url; ?>" class="event-vehicle-card">
+                        <?php if (!empty($v['photo'])): ?>
+                            <img src="../<?php echo htmlspecialchars($v['photo']); ?>"
+                                 alt="<?php echo htmlspecialchars($v['brand'] . ' ' . $v['model']); ?>">
+                        <?php else: ?>
+                            <div class="event-vehicle-placeholder">
+                                <i class="fas fa-car"></i>
+                            </div>
+                        <?php endif; ?>
+                        <div class="event-vehicle-info">
+                            <?php if (!empty($v['number'])): ?>
+                                <span class="event-vehicle-number">#<?php echo htmlspecialchars($v['number']); ?></span>
+                            <?php endif; ?>
+                            <span class="event-vehicle-name">
+                                <?php echo htmlspecialchars($v['brand'] . ' ' . $v['model']); ?>
+                            </span>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <?php endif; ?>
-
-            <?php if ($event['status'] === 'zakończone' && !empty($event['result'])): ?>
-            <div class="card event-result-card">
-                <h2><i class="fas fa-trophy"></i> Wynik</h2>
-                <p class="event-result-value">
-                    <?php echo htmlspecialchars($event['result']); ?>
-                </p>
-            </div>
-            <?php endif; ?>
-
         </div>
+        <?php endif; ?>
 
-        <!-- Prawa kolumna: szczegóły -->
-        <div class="event-detail-sidebar">
+        <!-- Prawa kolumna: szczegóły + kierowcy -->
+        <div class="event-detail-side">
 
             <div class="card">
                 <h2><i class="fas fa-info"></i> Szczegóły</h2>
-
                 <ul class="detail-list">
                     <li>
                         <span class="detail-label">Data</span>
@@ -121,8 +141,8 @@ include '../includes/header.php';
                     <li>
                         <span class="detail-label">Tor</span>
                         <span class="detail-value">
-                            <?php echo !empty($event['track_name']) 
-                                ? htmlspecialchars($event['track_name']) 
+                            <?php echo !empty($event['track_name'])
+                                ? htmlspecialchars($event['track_name'])
                                 : '—'; ?>
                         </span>
                     </li>
@@ -143,46 +163,70 @@ include '../includes/header.php';
                 </ul>
             </div>
 
-            <!-- Pojazdy -->
-            <?php if (!empty($vehicles)): ?>
+            <?php if (!empty($event_drivers)): ?>
             <div class="card">
-                <h2><i class="fas fa-car"></i> Pojazdy</h2>
-                <ul class="vehicle-list">
-                    <?php foreach ($vehicles as $v): ?>
-                    <li class="vehicle-list-item">
-                        <div class="vehicle-number">
-                            #<?php echo htmlspecialchars($v['number'] ?? '?'); ?>
-                        </div>
-                        <div class="vehicle-info">
-                            <span class="vehicle-name">
-                                <?php echo htmlspecialchars($v['brand'] . ' ' . $v['model']); ?>
+                <h2><i class="fas fa-user-astronaut"></i> Kierowcy</h2>
+                <div class="event-drivers-list">
+                    <?php foreach ($event_drivers as $d):
+                        $driver_url = 'driver_detail.php?id=' . $d['id'] . '&ref=event&event_id=' . $event['id'];
+                    ?>
+                    <a href="<?php echo $driver_url; ?>" class="event-driver-card">
+                        <?php if (!empty($d['photo'])): ?>
+                            <img src="../<?php echo htmlspecialchars($d['photo']); ?>"
+                                 alt="<?php echo htmlspecialchars($d['first_name']); ?>"
+                                 class="event-driver-photo">
+                        <?php else: ?>
+                            <div class="event-driver-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        <?php endif; ?>
+                        <div class="event-driver-info">
+                            <span class="event-driver-name">
+                                <?php echo htmlspecialchars($d['first_name'] . ' ' . $d['last_name']); ?>
                             </span>
-                            <?php
-                                $vBadge = match($v['status']) {
-                                    'aktywny'    => 'badge-success',
-                                    'w_naprawie' => 'badge-pending',
-                                    'wycofany'   => 'badge-danger',
-                                    default      => 'badge-info'
-                                };
-                                $vLabel = match($v['status']) {
-                                    'aktywny'    => 'Aktywny',
-                                    'w_naprawie' => 'W naprawie',
-                                    'wycofany'   => 'Wycofany',
-                                    default      => $v['status']
-                                };
-                            ?>
-                            <span class="badge <?php echo $vBadge; ?>">
-                                <?php echo $vLabel; ?>
+                            <span class="event-driver-meta">
+                                <?php if (!empty($d['number'])): ?>
+                                    #<?php echo htmlspecialchars($d['number']); ?>
+                                <?php endif; ?>
+                                <?php if (!empty($d['nationality'])): ?>
+                                    · <?php echo htmlspecialchars($d['nationality']); ?>
+                                <?php endif; ?>
                             </span>
                         </div>
-                    </li>
+                        <i class="fas fa-chevron-right event-driver-arrow"></i>
+                    </a>
                     <?php endforeach; ?>
-                </ul>
+                </div>
             </div>
             <?php endif; ?>
 
         </div>
     </div>
+
+    <!-- Dół: opis i wynik -->
+    <?php if (!empty($event['description']) || ($event['status'] === 'zakończone' && !empty($event['result']))): ?>
+    <div class="event-bottom-grid">
+
+        <?php if (!empty($event['description'])): ?>
+        <div class="card">
+            <h2><i class="fas fa-info-circle"></i> Opis wydarzenia</h2>
+            <p class="event-detail-desc">
+                <?php echo nl2br(htmlspecialchars($event['description'])); ?>
+            </p>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($event['status'] === 'zakończone' && !empty($event['result'])): ?>
+        <div class="card event-result-card">
+            <h2><i class="fas fa-trophy"></i> Wynik</h2>
+            <p class="event-result-value">
+                <?php echo htmlspecialchars($event['result']); ?>
+            </p>
+        </div>
+        <?php endif; ?>
+
+    </div>
+    <?php endif; ?>
 
 </main>
 

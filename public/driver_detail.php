@@ -2,6 +2,19 @@
 session_start();
 require_once '../config/db.php';
 
+$ref      = $_GET['ref'] ?? '';
+$event_id = isset($_GET['event_id']) && is_numeric($_GET['event_id']) 
+            ? (int)$_GET['event_id'] 
+            : null;
+
+if ($ref === 'event' && $event_id) {
+    $back_url   = "event_detail.php?id=$event_id";
+    $back_label = "Powrót do wydarzenia";
+} else {
+    $back_url   = "drivers.php";
+    $back_label = "Powrót do kierowców";
+}
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: drivers.php");
     exit;
@@ -50,8 +63,8 @@ include '../includes/header.php';
 
     <!-- Powrót -->
     <div style="margin-bottom: 30px;">
-        <a href="drivers.php" class="btn-outline" style="display: inline-flex;">
-            <i class="fas fa-arrow-left"></i> Powrót do kierowców
+        <a href="<?php echo $back_url; ?>" class="btn-outline" style="display: inline-flex;">
+            <i class="fas fa-arrow-left"></i> <?php echo $back_label; ?>
         </a>
     </div>
 
@@ -159,7 +172,7 @@ include '../includes/header.php';
                                 default      => 'badge-pending'
                             };
                         ?>
-                        <tr onclick="window.location='event_detail.php?id=<?php echo $e['id']; ?>'"
+                        <tr onclick="window.location='driver_detail.php?id=<?php echo $d['id']; ?>&ref=event&event_id=<?php echo $event['id']; ?>'"
                             style="cursor: pointer;">
                             <td><?php echo date('d.m.Y', strtotime($e['event_date'])); ?></td>
                             <td><?php echo htmlspecialchars($e['title']); ?></td>

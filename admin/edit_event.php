@@ -37,7 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result      = trim($_POST['result'] ?? 'nieokreślony');
     $description = trim($_POST['description'] ?? '');
     $vehicles    = isset($_POST['vehicles']) && is_array($_POST['vehicles']) ? $_POST['vehicles'] : [];
-
+    $pdo->prepare("DELETE FROM event_drivers WHERE event_id = ?")->execute([$event_id]);
+    if (isset($_POST['drivers']) && is_array($_POST['drivers'])) {
+        $stmtD = $pdo->prepare("INSERT INTO event_drivers (event_id, driver_id) VALUES (?, ?)");
+        foreach ($_POST['drivers'] as $d_id) {
+            if (is_numeric($d_id)) {
+                $stmtD->execute([$event_id, (int)$d_id]);
+            }
+        }
+    }
     if (empty($title) || empty($event_date)) {
         $error = "Tytuł i data są wymagane.";
     } else {
@@ -115,6 +123,17 @@ $vehicles = $pdo->query("
     ORDER BY brand ASC, model ASC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
+// Pobierz przypisanych kierowców
+$stmtDrivers = $pdo->prepare("SELECT driver_id FROM event_drivers WHERE event_id = ?");
+$stmtDrivers->execute([$event_id]);
+$assignedDrivers = array_column($stmtDrivers->fetchAll(PDO::FETCH_ASSOC), 'driver_id');
+
+$drivers = $pdo->query("
+    SELECT * FROM drivers 
+    WHERE is_active = 1 
+    ORDER BY last_name ASC
+")->fetchAll(PDO::FETCH_ASSOC);
+
 include '../includes/header.php';
 ?>
 
@@ -187,7 +206,7 @@ include '../includes/header.php';
                     <!-- Podgląd istniejącego zdjęcia -->
                     <div class="file-preview" id="file-preview" style="display: flex;">
                         <img id="preview-img"
-                             src="<?php echo htmlspecialchars('../../' . $event['photo']); ?>"
+                             src="<?php echo htmlspecialchars('../' . $event['photo']); ?>"
                              alt="Zdjęcie wydarzenia">
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             <button type="button" class="file-remove" id="file-change">
@@ -234,6 +253,37 @@ include '../includes/header.php';
                                     <span class="checkbox-label">
                                         #<?php echo htmlspecialchars($v['number'] ?? '?'); ?>
                                         — <?php echo htmlspecialchars($v['brand'] . ' ' . $v['model']); ?>
+                                    </span>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kierowcy — dropdown z checkboxami -->
+            <div class="form-group">
+                <label>Przypisz kierowców</label>
+                <div class="checkbox-dropdown" id="driver-dropdown">
+                    <div class="checkbox-dropdown-toggle" id="driver-toggle">
+                        <span id="driver-label">Wybierz kierowców...</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="checkbox-dropdown-menu" id="driver-menu">
+                        <?php if (empty($drivers)): ?>
+                            <p class="dropdown-empty">Brak aktywnych kierowców.</p>
+                        <?php else: ?>
+                            <?php foreach ($drivers as $d): ?>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="drivers[]"
+                                        value="<?php echo $d['id']; ?>"
+                                        <?php echo in_array($d['id'], $assignedDrivers) ? 'checked' : ''; ?>>
+                                    <span class="checkbox-custom"></span>
+                                    <span class="checkbox-label">
+                                        <?php if (!empty($d['number'])): ?>
+                                            #<?php echo htmlspecialchars($d['number']); ?> —
+                                        <?php endif; ?>
+                                        <?php echo htmlspecialchars($d['first_name'] . ' ' . $d['last_name']); ?>
                                     </span>
                                 </label>
                             <?php endforeach; ?>
@@ -307,6 +357,38 @@ function updateLabel() {
 // Ustaw etykietę na starcie (już zaznaczone pojazdy)
 updateLabel();
 checkboxes.forEach(cb => cb.addEventListener('change', updateLabel));
+
+// --- Dropdown kierowców ---
+const driverToggle = document.getElementById('driver-toggle');
+const driverMenu   = document.getElementById('driver-menu');
+const driverLabel  = document.getElementById('driver-label');
+const driverBoxes  = driverMenu.querySelectorAll('input[type="checkbox"]');
+
+driverToggle.addEventListener('click', () => {
+    driverMenu.classList.toggle('open');
+    driverToggle.classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('driver-dropdown').contains(e.target)) {
+        driverMenu.classList.remove('open');
+        driverToggle.classList.remove('open');
+    }
+});
+
+function updateDriverLabel() {
+    const selected = [...driverBoxes].filter(cb => cb.checked);
+    if (selected.length === 0) {
+        driverLabel.textContent = 'Wybierz kierowców...';
+    } else if (selected.length === 1) {
+        driverLabel.textContent = selected[0].closest('label')
+            .querySelector('.checkbox-label').textContent.trim();
+    } else {
+        driverLabel.textContent = `Wybrano ${selected.length} kierowców`;
+    }
+}
+updateDriverLabel();
+driverBoxes.forEach(cb => cb.addEventListener('change', updateDriverLabel));
 
 // --- Upload zdjęcia ---
 const photoInput  = document.getElementById('photo-input');
