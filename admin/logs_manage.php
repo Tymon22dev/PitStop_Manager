@@ -101,7 +101,7 @@ include '../includes/header.php';
                         <?php endforeach; ?>
                     </select>
                     <button type="submit" class="btn-outline btn-sm">
-                        <i class="fas fa-filter"></i> Filtruj pojazd
+                        <i class="fas fa-filter"></i> Filtruj
                     </button>
                     <?php if(!empty($vehicle_filter)): ?>
                         <a href="logs_manage.php" class="btn-cancel btn-sm">Wyczyść filtr</a>

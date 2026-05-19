@@ -40,65 +40,133 @@ $used_parts = $stmtParts->fetchAll(PDO::FETCH_ASSOC);
 include '../includes/header.php';
 ?>
 
-    <main class="home-wrapper wrapper-900">
-        <div class="dashboard-header mb-40">
-            <div>
-                <p class="dashboard-sub">Szczegóły raportu technicznego</p>
-                <h1 class="dashboard-title"><?php echo htmlspecialchars($log['title']); ?></h1>
-            </div>
-            <div class="current-date date-outline">
-                <i class="far fa-calendar-alt"></i> <?php echo date('d.m.Y H:i', strtotime($log['created_at'])); ?>
-            </div>
+<main class="home-wrapper wrapper-900">
+
+    <!-- PRZYCISK POWROTU -->
+    <div style="margin-bottom: 30px;">
+        <a href="logs_manage.php" class="btn-outline btn-sm" style="display: inline-flex;">
+            <i class="fas fa-arrow-left"></i> Powrót
+        </a>
+    </div>
+
+    <!-- HEADER -->
+    <div class="dashboard-header mb-40">
+        <div>
+            <p class="dashboard-sub">Szczegóły raportu technicznego</p>
+
+            <h1 class="dashboard-title">
+                <?php echo htmlspecialchars($log['title']); ?>
+            </h1>
         </div>
 
-        <div class="admin-layout-grid">
-            <section class="card admin-panel-card">
-                <h2 class="section-label"><i class="fas fa-file-alt"></i> Treść raportu</h2>
-                <div class="form-group">
-                    <label class="label-sm">AUTOR WPISU</label>
-                    <input type="text" class="dark-input" readonly value="<?php echo htmlspecialchars($log['first_name'] . ' ' . $log['last_name']); ?>">
-                </div>
-                <div class="form-group">
-                    <label class="label-sm">SERWISOWANY POJAZD</label>
-                    <input type="text" class="dark-input" readonly value="#<?php echo htmlspecialchars($log['number'] . ' - ' . $log['brand'] . ' ' . $log['model']); ?>">
-                </div>
-                <div class="form-group">
-                    <label class="label-sm">SZCZEGÓŁOWY OPIS TECHNICZNY</label>
-                    <textarea class="dark-input" rows="8" readonly><?php echo htmlspecialchars($log['content']); ?></textarea>
-                </div>
-                <div class="form-actions-row">
-                    <a href="logs_manage.php" class="btn-cancel">
-                        <i class="fas fa-arrow-left"></i> POWRÓT DO LISTY
-                    </a>
-                </div>
-            </section>
+        <div class="current-date date-outline">
+            <i class="far fa-calendar-alt"></i>
+            <?php echo date('d.m.Y H:i', strtotime($log['created_at'])); ?>
+        </div>
+    </div>
 
-            <section class="card admin-panel-card">
-                <h2 class="section-label"><i class="fas fa-boxes"></i> Zużyte części materiałowe</h2>
-                <div class="table-container table-responsive">
-                    <table class="admin-table">
-                        <thead>
+    <!-- RAPORT -->
+    <section class="card admin-panel-card">
+
+        <h2 class="section-label">
+            <i class="fas fa-file-alt"></i>
+            Treść raportu
+        </h2>
+
+        <div class="form-group">
+            <label class="label-sm">AUTOR WPISU</label>
+
+            <input
+                type="text"
+                class="dark-input"
+                readonly
+                value="<?php echo htmlspecialchars($log['first_name'] . ' ' . $log['last_name']); ?>"
+            >
+        </div>
+
+        <div class="form-group">
+            <label class="label-sm">SERWISOWANY POJAZD</label>
+
+            <input
+                type="text"
+                class="dark-input"
+                readonly
+                value="#<?php echo htmlspecialchars($log['number'] . ' - ' . $log['brand'] . ' ' . $log['model']); ?>"
+            >
+        </div>
+
+        <div class="form-group">
+            <label class="label-sm">SZCZEGÓŁOWY OPIS TECHNICZNY</label>
+
+            <textarea
+                class="dark-input"
+                rows="14"
+                style="width: 100%; line-height: 1.7; resize: vertical;"
+                readonly
+            ><?php echo htmlspecialchars($log['content']); ?></textarea>
+        </div>
+
+    </section>
+
+    <!-- CZĘŚCI -->
+    <section class="card admin-panel-card" style="margin-top: 30px;">
+
+        <h2 class="section-label">
+            <i class="fas fa-boxes"></i>
+            Zużyte części materiałowe
+        </h2>
+
+        <div class="table-container table-responsive">
+
+            <table class="admin-table">
+
+                <thead>
+                    <tr>
+                        <th>Nazwa części</th>
+                        <th>Ilość</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                <?php if (empty($used_parts)): ?>
+
+                    <tr>
+                        <td colspan="2" class="text-center text-muted">
+                            Nie zarejestrowano zużycia części.
+                        </td>
+                    </tr>
+
+                <?php else: ?>
+
+                    <?php foreach ($used_parts as $up): ?>
+
                         <tr>
-                            <th>Nazwa części</th>
-                            <th>Ilość</th>
+                            <td>
+                                <strong>
+                                    <?php echo htmlspecialchars($up['name']); ?>
+                                </strong>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-info">
+                                    <?php echo $up['quantity_used']; ?> szt.
+                                </span>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <?php if (empty($used_parts)): ?>
-                            <tr><td colspan="2" class="text-center text-muted">Nie zarejestrowano zużycia części.</td></tr>
-                        <?php else: ?>
-                            <?php foreach ($used_parts as $up): ?>
-                                <tr>
-                                    <td><strong><?php echo htmlspecialchars($up['name']); ?></strong></td>
-                                    <td><span class="badge badge-info"><?php echo $up['quantity_used']; ?> szt.</span></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+
+                </tbody>
+
+            </table>
+
         </div>
-    </main>
+
+    </section>
+
+</main>
 
 <?php include '../includes/footer.php'; ?>

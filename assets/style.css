@@ -151,14 +151,16 @@ nav a:hover, nav a.active { color: var(--primary); }
 }
 
 .btn-outline {
-    border: 1px solid var(--light-silver);
-    color: var(--light-silver);
+    background: transparent;
+    color: #ff5e00;
+    border: 2px solid #ff5e00;
 }
 
 .btn-outline:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: rgba(255, 94, 0, 0.05);
+    background: #ff5e00;
+    color: #111;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
 }
 
 /* WIZUALIZACJA STATYSTYK */
@@ -1633,14 +1635,18 @@ footer {
 }
 
 .btn-cancel {
-    padding: 12px 25px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+
     border: 1px solid #444;
     color: #fff;
     text-decoration: none;
-    border-radius: 6px;
+
     display: inline-flex;
     align-items: center;
     gap: 8px;
+
     transition: var(--transition);
 }
 
