@@ -56,7 +56,7 @@ $public_base = '../public/';
                     <li><a href="<?php echo $user_base; ?>dashboard.php"
                         class="<?php echo $current_page === 'dashboard.php' ? 'active' : ''; ?>">Strona główna</a></li>
                     <li><a href="<?php echo $public_base; ?>events.php"
-                        class="<?php echo $current_page === 'events.php' ? 'active' : ''; ?>">Kalendarz</a></li>
+                        class="<?php echo in_array($current_page, ['events.php', 'event_detail.php']) ? 'active' : ''; ?>">Kalendarz</a></li>
                     <li><a href="<?php echo $user_base; ?>parts_inventory.php"
                         class="<?php echo in_array($current_page, ['parts_inventory.php','add_part.php','edit_part.php']) ? 'active' : ''; ?>">Magazyn</a></li>
                     <li><a href="<?php echo $user_base; ?>vehicles.php"
@@ -64,7 +64,7 @@ $public_base = '../public/';
                     <li><a href="<?php echo $user_base; ?>logs_manage.php"
                         class="<?php echo in_array($current_page, ['logs_manage.php','add_log.php','edit_log.php']) ? 'active' : ''; ?>">Logi</a></li>
                     <li><a href="<?php echo $user_base; ?>profile.php"
-                        class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profil</a></li>
+                        class="<?php echo in_array($current_page, ['profile.php', 'change_password.php']) ? 'active' : ''; ?>">Profil</a></li>
 
                 <?php else: ?>
                     <li><a href="<?php echo $public_base; ?>index.php"

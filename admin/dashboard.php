@@ -101,7 +101,7 @@ include '../includes/header.php';
         <?php endif; ?>
 
         <div class="card-footer">
-            <a href="logs.php" class="btn-outline">
+            <a href="logs_manage.php" class="btn-outline">
                 Wszystkie logi <i class="fas fa-chevron-right"></i>
             </a>
         </div>
