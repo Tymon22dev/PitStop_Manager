@@ -93,7 +93,7 @@ include '../includes/header.php';
             <div class="filter-bar">
                 <form method="GET" class="inline-form-flex">
                     <select name="vehicle_id" class="inline-select">
-                        <option value="">Wszystkie pojazdy zespołu</option>
+                        <option value="">Wszystkie pojazdy</option>
                         <?php foreach($vehicles as $v): ?>
                             <option value="<?php echo $v['id']; ?>" <?php echo $vehicle_filter == $v['id'] ? 'selected' : ''; ?>>
                                 #<?php echo htmlspecialchars($v['number'] . ' - ' . $v['brand'] . ' ' . $v['model']); ?>

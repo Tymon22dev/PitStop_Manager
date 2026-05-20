@@ -47,7 +47,7 @@ include '../includes/header.php';
                 <p class="dashboard-sub">Zarządzanie pracą</p>
                 <h1 class="dashboard-title">Dziennik Serwisowy</h1>
             </div>
-            <div class="current-date date-outline">
+            <div>
                 <a href="add_log.php" class="btn-save">
                     <i class="fas fa-plus"></i> DODAJ NOWY RAPORT
                 </a>

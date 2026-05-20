@@ -421,8 +421,6 @@ footer {
     border: 1px solid #333;
     border-radius: 12px;
     padding: 30px;
-    margin-bottom: 30px;
-    margin-top: 20px;
 }
 
 .card h2 {
@@ -2413,13 +2411,17 @@ footer {
     grid-template-columns: 380px 1fr;
     gap: 20px;
     margin-bottom: 20px;
-    align-items: start;
+    align-items: stretch;
 }
 
 .event-detail-vehicles {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+}
+
+.event-detail-vehicles .card {
+    flex: 1;
+    margin-bottom: 0;
 }
 
 .event-detail-side {
