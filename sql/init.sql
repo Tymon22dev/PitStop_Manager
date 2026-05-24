@@ -121,3 +121,25 @@ CREATE TABLE event_drivers (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (driver_id) REFERENCES drivers(id) ON DELETE CASCADE
 );
+
+INSERT INTO users (username, password, email, first_name, last_name, role, is_active) 
+VALUES (
+    'admin',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    'admin@pitstop.pro',
+    'Główny',
+    'Administrator',
+    'admin',
+    1
+);
+
+INSERT INTO users (username, password, email, first_name, last_name, role, is_active) 
+VALUES (
+    'mechanik',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    'mechanik@pitstop.pro',
+    'Jan',
+    'Mechanik',
+    'user',
+    1
+);
