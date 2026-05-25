@@ -390,21 +390,7 @@ Powiązanie wydarzeń z kierowcami (relacja wiele-do-wielu).
 
 ### Diagram relacji
 
-```
-users ──────────────────────────────── logs
-                                         │
-vehicles ───────────────────────────── logs
-                                         │
-parts ──────────── log_parts ────────── logs
-
-categories ──────── parts
-
-events ──── event_vehicles ──── vehicles
-   │
-   └──── event_drivers  ──── drivers
-```
-
----
+![Diagram ERD](sql/Diagram%20ERD%20bazy%20danych.png)
 
 ## 7. Opis interfejsu i instrukcja użytkownika
 
