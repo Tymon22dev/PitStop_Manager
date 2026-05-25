@@ -177,9 +177,9 @@ Pracownik operacyjny z kontem w systemie. Posiada dostęp do panelu użytkownika
   - Edycja (`user/edit_part.php`) i usuwanie części z potwierdzeniem w oknie dialogowym
 
 - **Logi serwisowe** (`user/logs.php`) – dokumentacja napraw pojazdów:
-  - Lista własnych logów z możliwością filtrowania po pojazdach
+  - Lista wszystkich logów w systemie (własnych i innych mechaników) z możliwością filtrowania po pojazdach
   - Tworzenie wpisu (`user/add_log.php`): tytuł, pojazd, użyte części z magazynu (ilość automatycznie odejmowana po zapisaniu), opis prac, data
-  - Edycja (`user/edit_log.php`) wyłącznie własnych wpisów
+  - Edycja (`user/edit_log.php`) wyłącznie własnych wpisów — przy logach innych mechaników przycisk edycji jest niedostępny
 
 - **Profil użytkownika** (`user/profile.php`) – edycja własnych danych: imię, nazwisko, adres e-mail. Zmiana hasła dostępna przez oddzielną stronę (`user/change_password.php`).
 
@@ -392,7 +392,7 @@ Powiązanie wydarzeń z kierowcami (relacja wiele-do-wielu).
 
 ![Diagram ERD](sql/Diagram%20ERD%20bazy%20danych.png)
 
-## 7. Opis interfejsu i instrukcja użytkownika
+## 7. Opis interfejsu i in strukcja użytkownika
 
 ### Ogólne zasady interfejsu
 

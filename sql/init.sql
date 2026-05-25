@@ -1,13 +1,16 @@
 CREATE DATABASE IF NOT EXISTS pitstop_db;
 USE pitstop_db;
 
+DROP TABLE IF EXISTS event_drivers;
+DROP TABLE IF EXISTS event_vehicles;
+DROP TABLE IF EXISTS log_parts;
+DROP TABLE IF EXISTS logs;
 DROP TABLE IF EXISTS parts;
 DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS logs;
 DROP TABLE IF EXISTS events;
-DROP TABLE IF EXISTS event_vehicles;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS drivers;
 DROP TABLE IF EXISTS vehicles;
+DROP TABLE IF EXISTS users;
 
 -- Tabela użytkowników (zgodnie z Twoim pomysłem: Admin tworzy Usera)
 CREATE TABLE users (
